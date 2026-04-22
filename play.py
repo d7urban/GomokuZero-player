@@ -5,12 +5,9 @@ The AI uses MCTS with the trained network for strong move selection.
 """
 
 import numpy as np
-import os, time, curses
-
-os.environ["TF_FORCE_GPU_ALLOW_GROWTH"] = "true"
-import tensorflow as tf
-
-tf.get_logger().setLevel("ERROR")
+import os
+import time
+import curses
 
 from gomoku import (
     EMPTY, PLAYER1, PLAYER2,
@@ -22,6 +19,11 @@ from entrypoint_shared import (
     select_weights,
     load_model_and_predict_fn,
 )
+
+os.environ["TF_FORCE_GPU_ALLOW_GROWTH"] = "true"
+import tensorflow as tf
+
+tf.get_logger().setLevel("ERROR")
 
 # ── Curses UI ───────────────────────────────────────────────────────────────
 def draw_board(stdscr, game, cursor_row, cursor_col, human_player, message=""):
@@ -222,7 +224,8 @@ def main(stdscr, weight_file=None, difficulty="medium"):
     stdscr.addstr(2, 0, f"  Difficulty: {difficulty_label} ({sims} sims)")
 
     stdscr.addstr(3, 0, "  Ready!  Press any key to start …")
-    stdscr.refresh(); stdscr.getch()
+    stdscr.refresh()
+    stdscr.getch()
 
     while True:
         game = GomokuGame()
@@ -233,7 +236,8 @@ def main(stdscr, weight_file=None, difficulty="medium"):
 
     stdscr.clear()
     stdscr.addstr(0, 0, "Thanks for playing!")
-    stdscr.refresh(); time.sleep(1)
+    stdscr.refresh()
+    time.sleep(1)
 
 
 if __name__ == "__main__":

@@ -17,6 +17,7 @@ ENV/
 .vscode/
 *.swp
 *.swo
+.codex
 
 # Cython
 *.c
@@ -46,3 +47,7 @@ Thumbs.db
 
 # Profiling artifacts
 *.prof
+
+# Local analysis artifacts
+Horizon_effect.json
+Horizon_effect2.json

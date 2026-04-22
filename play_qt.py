@@ -14,22 +14,6 @@ import json
 
 import numpy as np
 
-os.environ["TF_FORCE_GPU_ALLOW_GROWTH"] = "true"
-import tensorflow as tf
-
-tf.get_logger().setLevel("ERROR")
-
-def _load_pyqt6():
-    try:
-        from PyQt6 import QtCore as _QtCore, QtGui as _QtGui, QtWidgets as _QtWidgets
-    except ImportError:
-        print("PyQt6 not found. Install it with: pip install PyQt6", file=sys.stderr)
-        sys.exit(1)
-    return _QtCore, _QtGui, _QtWidgets
-
-
-QtCore, QtGui, QtWidgets = _load_pyqt6()
-
 from gomoku import (
     BOARD_SIZE,
     EMPTY,
@@ -50,6 +34,22 @@ from entrypoint_shared import (
     resolve_difficulty,
     select_weights as select_shared_weights,
 )
+
+os.environ["TF_FORCE_GPU_ALLOW_GROWTH"] = "true"
+import tensorflow as tf
+
+tf.get_logger().setLevel("ERROR")
+
+def _load_pyqt6():
+    try:
+        from PyQt6 import QtCore as _QtCore, QtGui as _QtGui, QtWidgets as _QtWidgets
+    except ImportError:
+        print("PyQt6 not found. Install it with: pip install PyQt6", file=sys.stderr)
+        sys.exit(1)
+    return _QtCore, _QtGui, _QtWidgets
+
+
+QtCore, QtGui, QtWidgets = _load_pyqt6()
 
 CELL_MIN_SIZE = 30
 INDEX_COL_WIDTH = 26

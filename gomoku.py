@@ -83,8 +83,10 @@ class GomokuGame:
         """Add or remove frontier contribution for one stone. O(49)."""
         d = self._FRONTIER_DIST
         s = self.size
-        r0 = max(0, row - d); r1 = min(s, row + d + 1)
-        c0 = max(0, col - d); c1 = min(s, col + d + 1)
+        r0 = max(0, row - d)
+        r1 = min(s, row + d + 1)
+        c0 = max(0, col - d)
+        c1 = min(s, col + d + 1)
         self._frontier[r0:r1, c0:c1] += delta
 
     def copy(self):
@@ -138,10 +140,14 @@ class GomokuGame:
             count = 1
             r, c = row + dr, col + dc
             while 0 <= r < self.size and 0 <= c < self.size and self.board[r, c] == player:
-                count += 1; r += dr; c += dc
+                count += 1
+                r += dr
+                c += dc
             r, c = row - dr, col - dc
             while 0 <= r < self.size and 0 <= c < self.size and self.board[r, c] == player:
-                count += 1; r -= dr; c -= dc
+                count += 1
+                r -= dr
+                c -= dc
             if count >= WIN_LENGTH:
                 return True
         return False
@@ -255,50 +261,66 @@ if _HAS_NUMBA:
                 mc = my[r,c]+my[r,c+1]+my[r,c+2]+my[r,c+3]+my[r,c+4]
                 oc = opp[r,c]+opp[r,c+1]+opp[r,c+2]+opp[r,c+3]+opp[r,c+4]
                 if mc == 4 and oc == 0:
-                    for k in range(5): out[r, c+k, 2] = 1.0
+                    for k in range(5):
+                        out[r, c+k, 2] = 1.0
                 elif mc == 3 and oc == 0:
-                    for k in range(5): out[r, c+k, 4] = 1.0
+                    for k in range(5):
+                        out[r, c+k, 4] = 1.0
                 if oc == 4 and mc == 0:
-                    for k in range(5): out[r, c+k, 3] = 1.0
+                    for k in range(5):
+                        out[r, c+k, 3] = 1.0
                 elif oc == 3 and mc == 0:
-                    for k in range(5): out[r, c+k, 5] = 1.0
+                    for k in range(5):
+                        out[r, c+k, 5] = 1.0
         # Vertical
         for r in range(n):
             for c in range(size):
                 mc = my[r,c]+my[r+1,c]+my[r+2,c]+my[r+3,c]+my[r+4,c]
                 oc = opp[r,c]+opp[r+1,c]+opp[r+2,c]+opp[r+3,c]+opp[r+4,c]
                 if mc == 4 and oc == 0:
-                    for k in range(5): out[r+k, c, 2] = 1.0
+                    for k in range(5):
+                        out[r+k, c, 2] = 1.0
                 elif mc == 3 and oc == 0:
-                    for k in range(5): out[r+k, c, 4] = 1.0
+                    for k in range(5):
+                        out[r+k, c, 4] = 1.0
                 if oc == 4 and mc == 0:
-                    for k in range(5): out[r+k, c, 3] = 1.0
+                    for k in range(5):
+                        out[r+k, c, 3] = 1.0
                 elif oc == 3 and mc == 0:
-                    for k in range(5): out[r+k, c, 5] = 1.0
+                    for k in range(5):
+                        out[r+k, c, 5] = 1.0
         # Diagonal and anti-diagonal
         for r in range(n):
             for c in range(n):
                 mc = my[r,c]+my[r+1,c+1]+my[r+2,c+2]+my[r+3,c+3]+my[r+4,c+4]
                 oc = opp[r,c]+opp[r+1,c+1]+opp[r+2,c+2]+opp[r+3,c+3]+opp[r+4,c+4]
                 if mc == 4 and oc == 0:
-                    for k in range(5): out[r+k, c+k, 2] = 1.0
+                    for k in range(5):
+                        out[r+k, c+k, 2] = 1.0
                 elif mc == 3 and oc == 0:
-                    for k in range(5): out[r+k, c+k, 4] = 1.0
+                    for k in range(5):
+                        out[r+k, c+k, 4] = 1.0
                 if oc == 4 and mc == 0:
-                    for k in range(5): out[r+k, c+k, 3] = 1.0
+                    for k in range(5):
+                        out[r+k, c+k, 3] = 1.0
                 elif oc == 3 and mc == 0:
-                    for k in range(5): out[r+k, c+k, 5] = 1.0
+                    for k in range(5):
+                        out[r+k, c+k, 5] = 1.0
                 # Anti-diagonal: (r, c+4) to (r+4, c)
                 mc = my[r,c+4]+my[r+1,c+3]+my[r+2,c+2]+my[r+3,c+1]+my[r+4,c]
                 oc = opp[r,c+4]+opp[r+1,c+3]+opp[r+2,c+2]+opp[r+3,c+1]+opp[r+4,c]
                 if mc == 4 and oc == 0:
-                    for k in range(5): out[r+k, c+4-k, 2] = 1.0
+                    for k in range(5):
+                        out[r+k, c+4-k, 2] = 1.0
                 elif mc == 3 and oc == 0:
-                    for k in range(5): out[r+k, c+4-k, 4] = 1.0
+                    for k in range(5):
+                        out[r+k, c+4-k, 4] = 1.0
                 if oc == 4 and mc == 0:
-                    for k in range(5): out[r+k, c+4-k, 3] = 1.0
+                    for k in range(5):
+                        out[r+k, c+4-k, 3] = 1.0
                 elif oc == 3 and mc == 0:
-                    for k in range(5): out[r+k, c+4-k, 5] = 1.0
+                    for k in range(5):
+                        out[r+k, c+4-k, 5] = 1.0
 
 
 # ── Model ───────────────────────────────────────────────────────────────────
@@ -430,10 +452,14 @@ def get_candidate_moves(board, distance=2, density_threshold=2, frontier=None):
     nearby = np.zeros_like(board, dtype=np.bool_)
     for dr in range(-distance, distance + 1):
         for dc in range(-distance, distance + 1):
-            src_r0 = max(0, -dr);  src_r1 = min(size, size - dr)
-            src_c0 = max(0, -dc);  src_c1 = min(size, size - dc)
-            dst_r0 = src_r0 + dr;  dst_r1 = src_r1 + dr
-            dst_c0 = src_c0 + dc;  dst_c1 = src_c1 + dc
+            src_r0 = max(0, -dr)
+            src_r1 = min(size, size - dr)
+            src_c0 = max(0, -dc)
+            src_c1 = min(size, size - dc)
+            dst_r0 = src_r0 + dr
+            dst_r1 = src_r1 + dr
+            dst_c0 = src_c0 + dc
+            dst_c1 = src_c1 + dc
             nearby[dst_r0:dst_r1, dst_c0:dst_c1] |= (board[src_r0:src_r1, src_c0:src_c1] != EMPTY)
 
     nearby &= (board == EMPTY)
