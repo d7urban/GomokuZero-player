@@ -34,11 +34,9 @@ from entrypoint_shared import (
     resolve_difficulty,
     select_weights as select_shared_weights,
 )
+from tensorflow_utils import import_tensorflow
 
-os.environ["TF_FORCE_GPU_ALLOW_GROWTH"] = "true"
-import tensorflow as tf
-
-tf.get_logger().setLevel("ERROR")
+tf = import_tensorflow()
 
 def _load_pyqt6():
     try:

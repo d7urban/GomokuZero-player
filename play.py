@@ -19,11 +19,9 @@ from entrypoint_shared import (
     select_weights,
     load_model_and_predict_fn,
 )
+from tensorflow_utils import import_tensorflow
 
-os.environ["TF_FORCE_GPU_ALLOW_GROWTH"] = "true"
-import tensorflow as tf
-
-tf.get_logger().setLevel("ERROR")
+tf = import_tensorflow()
 
 # ── Curses UI ───────────────────────────────────────────────────────────────
 def draw_board(stdscr, game, cursor_row, cursor_col, human_player, message=""):

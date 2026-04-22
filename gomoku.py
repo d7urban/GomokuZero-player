@@ -13,6 +13,8 @@ import numpy as np
 import warnings
 from math import sqrt as _sqrt
 
+from tensorflow_utils import import_tensorflow
+
 # ── Optional Cython acceleration ───────────────────────────────────────────
 # Build with:  python setup_accel.py build_ext --inplace
 try:
@@ -338,10 +340,9 @@ def create_model(board_size=BOARD_SIZE, num_res_blocks=10, num_filters=128,
     TF/Keras are imported here (lazily) so that worker processes can
     configure GPU visibility before the first import.
     """
-    import tensorflow as tf
-    from tensorflow import keras
-    from tensorflow.keras import layers
-    tf.get_logger().setLevel("ERROR")
+    tf = import_tensorflow()
+    keras = tf.keras
+    layers = keras.layers
     warnings.filterwarnings("ignore", category=UserWarning)
 
     inputs = keras.Input(shape=(board_size, board_size, NUM_INPUT_PLANES))
@@ -401,7 +402,7 @@ def make_predict_fn(model):
     Returns:
         predict_np(x) → (logits_np, values_np) as numpy arrays
     """
-    import tensorflow as tf
+    tf = import_tensorflow()
 
     @tf.function(input_signature=[
         tf.TensorSpec([None, BOARD_SIZE, BOARD_SIZE, NUM_INPUT_PLANES], tf.float32)
